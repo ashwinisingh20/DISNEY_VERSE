@@ -1,3 +1,4 @@
+<?php include '../config/config.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -192,40 +193,62 @@
 </div>
 
 <div class="hero">
-    <img src="assets/images/Slider.jpeg" alt="DisneyVerse Banner">
+    <?php
+
+    $stmt = $conn->prepare("SELECT filename FROM images WHERE category = 'Banner' ORDER BY id DESC LIMIT 1");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $banner = $result->fetch_assoc();
+
+    $bannerSrc = $banner ? "admin/uploads/" . htmlspecialchars($banner['filename']) : "assets/images/Slider.jpeg";
+    ?>
+    <img src="<?= $bannerSrc ?>" alt="DisneyVerse Banner">
 </div>
 
+
 <div class="category-section">
-    <div class="category" onclick="window.location.href='pages/pixarmovies.php'">
-        <img src="assets/images/pixar.png" alt="Pixar">
-        <video autoplay muted loop>
-            <source src="assets/videos/pixar.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="category" onclick="window.location.href='pages/marvelmovie.php'">
-        <img src="assets/images/marvel.png" alt="Marvel">
-        <video autoplay muted loop>
-            <source src="assets/videos/marvel.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="category" onclick="window.location.href='pages/movie-section.php'">
-        <img src="assets/images/disney.png" alt="Disney">
-        <video autoplay muted loop>
-            <source src="assets/videos/disney.mp4" type="video/mp4">
-        </video>
-    </div>
+    <?php
+   
+
+    $categories = ['Pixar', 'Marvel', 'Disney'];
+    $pages = [
+        'Pixar' => 'pages/pixarmovies.php',
+        'Marvel' => 'pages/marvelmovie.php',
+        'Disney' => 'pages/movie-section.php'
+    ];
+
+    foreach ($categories as $cat):
+        $stmt = $conn->prepare("SELECT filename FROM images WHERE category = ? ORDER BY id DESC LIMIT 1");
+        $stmt->bind_param("s", $cat);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $image = $result->fetch_assoc();
+        $imgSrc = $image ? "admin/uploads/" . htmlspecialchars($image['filename']) : "assets/images/placeholder.png";
+    ?>
+        <div class="category" onclick="window.location.href='<?= $pages[$cat] ?>'">
+            <img src="<?= $imgSrc ?>" alt="<?= $cat ?>">
+            <video autoplay muted loop>
+                <source src="assets/videos/<?= strtolower(str_replace(' ', '', $cat)) ?>.mp4" type="video/mp4">
+            </video>
+        </div>
+    <?php endforeach; ?>
 </div>
+
 
 <div class="movies-section">
     <h2>Featured Movies</h2>
-    <img src="assets/images/posters/poster1.png">
-    <img src="assets/images/posters/poster2.png">
-    <img src="assets/images/posters/poster10.png">
-    <img src="assets/images/posters/m12.jpg">
-    <img src="assets/images/posters/m10.jpg">
-    <img src="assets/images/posters/m11.jpg">
-    <img src="assets/images/posters/m6.jpg">
-    <img src="assets/images/posters/m9.jpg">
+    <?php
+    $query = "SELECT filename FROM images WHERE category = 'Featured' ORDER BY id DESC LIMIT 8"; // last 8 uploaded images
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<img src="admin/uploads/' . htmlspecialchars($row['filename']) . '" alt="Movie Poster">';
+        }
+    } else {
+        echo "<p>No featured movies found.</p>";
+    }
+    ?>
 </div>
 
 <main>
