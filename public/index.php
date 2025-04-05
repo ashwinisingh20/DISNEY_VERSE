@@ -232,7 +232,7 @@
     <section class="disney-house-container">
         <h2 class="house-title">What's Your Disney  Universe?</h2>
         <div class="house-banners">
-            <div class="house-banner pixar">asdfg</div>
+            <div class="house-banner pixar">pixer</div>
             <div class="house-banner disney-animation">Disney Animation</div>
             <div class="house-banner marvel">Marvel</div>
         </div>
