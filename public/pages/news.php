@@ -1,3 +1,10 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "disney");
+
+$news = $conn->query("SELECT * FROM disney_news ORDER BY id DESC");
+$facts = $conn->query("SELECT * FROM disney_facts ORDER BY id DESC");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,39 +71,27 @@
         <section class="updates">
             <h2>Latest Updates 🏰</h2>
             <ul id="latest-updates">
-                <?php
-                $updates = [
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/3/3f/Elsa_Disney.png', 'text' => "New 'Frozen' attraction opening in Epcot this summer!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/3/3d/Mickey_Mouse.png', 'text' => "Disney World introduces new nighttime parade at Magic Kingdom."],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/5/5f/Yoda_Empire_Strikes_Back.png', 'text' => "New Star Wars hotel experience now available for booking!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/6/64/Donald_Duck.png', 'text' => "Donald Duck is getting his own themed ride at Animal Kingdom!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/2/26/Buzz_Lightyear.png', 'text' => "New Toy Story Land expansion announced!"]
-                ];
-
-                foreach ($updates as $update) {
-                    echo "<li><img src=\"{$update['img']}\" alt=\"\">{$update['text']}</li>";
-                }
-                ?>
-            </ul>
+<?php while($row = $news->fetch_assoc()): ?>
+    <li>
+        <img src="admin/news/uploads/<?= htmlspecialchars(basename($row['image_url'])) ?>" alt="news Image" style="max-width:100px;">
+        <?= htmlspecialchars($row['news_text']) ?>
+    </li>
+<?php endwhile; ?>
+</ul>
         </section>
 
         <section class="facts">
             <h2>Disney Fun Facts & Trivia 🎉</h2>
             <ul id="facts">
-                <?php
-                $facts = [
-                    ['img' => 'pictures/marvels/marvel1.jpg', 'text' => "Did you know? Cinderella Castle is 189 feet tall!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/3/3d/Mickey_Mouse.png', 'text' => "Over 58 million guests visit Disney World each year."],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/d/db/Minnie_Mouse.png', 'text' => "Hidden Mickeys can be found all over the park!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/e/e7/Goofy.png', 'text' => "Goofy originally had a different name—he was called \"Dippy Dawg\"!"],
-                    ['img' => 'https://upload.wikimedia.org/wikipedia/en/8/8a/Pluto_disney.png', 'text' => "Pluto was named after the planet, which was discovered the same year he debuted!"]
-                ];
+<?php while($row = $facts->fetch_assoc()): ?>
+    <li>
+        <img src="admin/news/uploads/<?= htmlspecialchars(basename($row['image_url'])) ?>" alt="Fact Image" style="max-width:100px;">
+        <?= htmlspecialchars($row['fact_text']) ?>
+    </li>
+<?php endwhile; ?>
+</ul>
 
-                foreach ($facts as $fact) {
-                    echo "<li><img src=\"{$fact['img']}\" alt=\"\">{$fact['text']}</li>";
-                }
-                ?>
-            </ul>
+</ul>
         </section>
     </main>
 </body>
