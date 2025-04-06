@@ -16,7 +16,18 @@
             background-color: #f7ebd6;
             color: #333;
         }
-
+        .back {
+           
+            background: #de552f;
+            font:white;
+            padding: 2px;
+            margin: 5px;
+            width: 30px;
+            height: 10px;px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+        
         header {
             background: linear-gradient(to right, #ff6b6b, #ffcc5c);
             color: white;
@@ -150,17 +161,11 @@
     </style>
 </head>
 <body>
+<div class="back">
+            <button onclick="location.href='index.php'">back</button>
+</div>
     <header>DisneyVerse - Quizzes, Facts, and Polls</header>
-    <nav>
-        <ul>
-            <li><a href="newhomepage.php">Home</a></li>
-            <li><a href="summary_page.php">Summaries</a></li>
-            <li><a href="#polls">News</a></li>
-            <li><a href="#quizzes">Quizzes</a></li>
-            <li><a href="#facts">Facts</a></li>
-            <li><a href="#polls">Polls</a></li>
-        </ul>
-    </nav>
+    
 
     <main>
         <section id="quizzes" class="content-section">

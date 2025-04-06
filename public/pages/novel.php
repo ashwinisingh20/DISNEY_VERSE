@@ -128,7 +128,28 @@ $novels = [
       color: white;
       overflow-x: hidden;
     }
-
+    .navbar {
+            display: flex;
+            justify-content: right;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.85);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+           }
+           .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .navbar a:hover {
+            color: #fdd835;
+            transform: scale(1.1);
+        }       
     header {
       text-align: center;
       padding: 20px;
@@ -136,6 +157,7 @@ $novels = [
       background: #0b1a2e;
       color: #00d4ff;
       text-shadow: 1px 1px 5px #fff;
+      margin-top:50px;
     }
 
     .carousel {
@@ -254,7 +276,17 @@ $novels = [
   </style>
 </head>
 <body>
+<div class="navbar">
+    <a href="pages/about.php">About</a>
+    <a href="pages/summary-page.php">Summaries</a>
+    <a href="pages/poll.php">Games</a>
+    <a href="pages/news.php">News</a>
+    <a href="pages/novel.php">Novels</a>
+    <a href="pages/contactus.php">Contact</a>
+    <a href="pages/my-account.php">My Account</a>
+</div>
   <header>📚 DisneyVerse Novels</header>
+
 
   <div class="carousel" id="carousel">
     <?php foreach ($novels as $index => $novel): ?>

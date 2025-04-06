@@ -189,10 +189,10 @@ if (isset($_POST['review'])) {
     <div class="movies-container">
       <?php
         $movies = [
-          ["Iron Man", "https://lumiere-a.akamaihd.net/v1/images/ironman3_poster_2_198b0df5.jpeg", "Tony Stark becomes the armored Avenger."],
-          ["Avengers Endgame", "https://lumiere-a.akamaihd.net/v1/images/avengers-endgame_poster_4f9db92d.jpeg", "Earth’s mightiest heroes unite once more."],
-          ["Spider-Man: No Way Home", "https://lumiere-a.akamaihd.net/v1/images/spiderman-no-way-home-poster_d256fe51.jpeg", "Peter Parker’s identity is exposed."],
-          ["Captain Marvel", "https://lumiere-a.akamaihd.net/v1/images/captain-marvel_313239ec.jpeg", "Carol Danvers becomes one of the galaxy’s mightiest heroes."]
+          ["Iron Man", "D:\DisneyVerse\pictures\marvels\marvel10.jpg", "Tony Stark becomes the armored Avenger."],
+          ["Avengers Endgame", "D:\DisneyVerse\pictures\marvels\marvel2.jpg", "Earth’s mightiest heroes unite once more."],
+          ["Spider-Man: No Way Home", "D:\DisneyVerse\pictures\marvels\marvel1.jpg", "Peter Parker’s identity is exposed."],
+          ["Captain Marvel", "D:\DisneyVerse\pictures\marvels\captain america.jpg", "Carol Danvers becomes one of the galaxy’s mightiest heroes."]
         ];
 
         foreach ($movies as $movie) {
