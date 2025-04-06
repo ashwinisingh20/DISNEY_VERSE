@@ -1,16 +1,11 @@
 <?php
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-    
-
-// Optional: Start session if needed
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
 
-// Initialize variables
 $errors = [];
 $name = $gender = $age = $phone = $email = $userpassword = $confirmPassword = "";
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $gender = $_POST["gender"];
@@ -20,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userpassword = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
 
-    // Validation
     if (empty($name)) $errors["name"] = "Name is required";
     if (empty($gender)) $errors["gender"] = "Gender is required";
     if (empty($age) || $age <= 0) $errors["age"] = "Valid age is required";
@@ -29,20 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strlen($userpassword) < 6) $errors["password"] = "Password must be at least 6 characters";
     if ($userpassword !== $confirmPassword) $errors["confirmPassword"] = "Passwords do not match";
 
-    // If no errors, save to DB (example)
     if (empty($errors)) {
-        // Example DB connection (update with your config)
         include_once("../config/config.php");
-
-        // Hash password
-        echo "Hashed Password from DB: " . htmlspecialchars($userpassword) . "<br>";
         $hashedPassword = password_hash($userpassword, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("INSERT INTO users (name, gender, age, phone, email, password) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssisss", $name, $gender, $age, $phone, $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            header("Location: login.php"); // Redirect after successful registration
+            header("Location: login.php");
             exit;
         } else {
             $errors["general"] = "Registration failed. Try again.";
@@ -50,50 +39,140 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <style>
-        /* ... Same CSS as your original file ... */
-    </style>
-</head>
-<body>
-<div class="container">
-    <h2>Register</h2>
-    <?php if (!empty($errors["general"])) echo "<p class='error'>{$errors['general']}</p>"; ?>
-    <form method="POST" action="">
-        <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>">
-        <div class="error"><?= $errors["name"] ?? "" ?></div>
+<style>
+  body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: url('assets/images/disneyverse.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
 
-        <select name="gender">
-            <option value="">Select Gender</option>
-            <option value="Male" <?= $gender === "Male" ? "selected" : "" ?>>Male</option>
-            <option value="Female" <?= $gender === "Female" ? "selected" : "" ?>>Female</option>
-        </select>
-        <div class="error"><?= $errors["gender"] ?? "" ?></div>
+  .register-container {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 520px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    color: white;
+  }
 
-        <input type="number" name="age" placeholder="Age" value="<?= htmlspecialchars($age) ?>">
-        <div class="error"><?= $errors["age"] ?? "" ?></div>
+  .register-container h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #FFD700, #FF69B4, #8A2BE2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
 
-        <input type="text" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>">
-        <div class="error"><?= $errors["phone"] ?? "" ?></div>
+  .form-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
 
-        <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>">
-        <div class="error"><?= $errors["email"] ?? "" ?></div>
+  .form-group input,
+  .form-group select,
+  .register-container input,
+  .register-container select {
+    flex: 1;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 15px;
+    width: 100%;
+    transition: 0.3s ease;
+  }
 
-        <input type="password" name="password" placeholder="Password">
-        <div class="error"><?= $errors["password"] ?? "" ?></div>
+  input:focus, select:focus {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: 0 0 10px #FFD700;
+  }
 
-        <input type="password" name="confirmPassword" placeholder="Confirm Password">
-        <div class="error"><?= $errors["confirmPassword"] ?? "" ?></div>
+  .register-container button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 25px;
+    background: linear-gradient(45deg, #ff0080, #7928ca, #ffcd1e);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
 
-        <p class="login-link">Already have an account? <a href="login.php"><font color="black">Login here</font></a></p>
+  .register-container button:hover {
+    background-position: right center;
+    transform: scale(1.03);
+    box-shadow: 0 0 20px #ffcd1e;
+  }
+  .register-container a:hover {
+  text-shadow: 0 0 8px #FFD700;
+}
 
-        <button type="submit">Register</button>
-    </form>
+</style>
+
+<div class="register-container">
+  <h2>🎆 Welcome to DisneyVerse 🎆</h2>
+  <form action="register.php" method="POST">
+    <!-- First row: Name & Gender -->
+    <div class="form-group">
+      <input type="text" name="name" placeholder="Full Name" value="<?= htmlspecialchars($name) ?>" required>
+      <select name="gender" required>
+        <option value="" disabled <?= $gender == '' ? 'selected' : '' ?>>Gender</option>
+        <option value="male" <?= $gender == 'male' ? 'selected' : '' ?>>Male</option>
+        <option value="female" <?= $gender == 'female' ? 'selected' : '' ?>>Female</option>
+        <option value="other" <?= $gender == 'other' ? 'selected' : '' ?>>Other</option>
+      </select>
+    </div>
+
+    <!-- Second row: Age & Phone -->
+    <div class="form-group">
+      <input type="number" name="age" placeholder="Age" value="<?= htmlspecialchars($age) ?>" required>
+      <input type="tel" name="phone" placeholder="Phone Number" value="<?= htmlspecialchars($phone) ?>" required>
+    </div>
+
+    <!-- Email & Passwords -->
+    <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
+    <!-- Error display -->
+    <?php if (!empty($errors)): ?>
+      <ul style="color: #FFD700; padding-left: 20px;">
+        <?php foreach ($errors as $err): ?>
+          <li><?= htmlspecialchars($err) ?></li>
+        <?php endforeach; ?>
+      </ul>
+    <?php endif; ?>
+
+    <button type="submit">✨ Register Now ✨</button>
+
+    <div style="text-align: center; margin-top: 20px;">
+  <p style="color: #fff;">Already have an account? 
+    <a href="login.php" style="color: #FFD700; text-decoration: none; font-weight: 600;">
+      Login here
+    </a>
+  </p>
 </div>
-</body>
-</html>
+  </form>
+</div>

@@ -1,9 +1,17 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "disney");
 
+// 🛑 Handle delete FIRST and stop further output
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
+    $id = intval($_POST['delete_id']);
+    $conn->query("DELETE FROM fun_facts WHERE id = $id");
+    echo "success";
+    exit; // 🔥 prevent any more output like HTML
+}
+
 $message = "";
 
-if (isset($_POST['add'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add'])) {
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
 
@@ -18,12 +26,6 @@ if (isset($_POST['add'])) {
     }
 }
 
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $conn->query("DELETE FROM fun_facts WHERE id = $id");
-    $message = "❌ Fun Fact deleted.";
-}
-
 $result = $conn->query("SELECT * FROM fun_facts ORDER BY id DESC");
 ?>
 
@@ -32,6 +34,7 @@ $result = $conn->query("SELECT * FROM fun_facts ORDER BY id DESC");
 <head>
     <meta charset="UTF-8">
     <title>DisneyVerse Admin - Fun Facts</title>
+   
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -151,6 +154,7 @@ $result = $conn->query("SELECT * FROM fun_facts ORDER BY id DESC");
             }
         }
     </style>
+
 </head>
 <body>
     <header>DisneyVerse Admin Panel - Fun Facts ✨</header>
@@ -172,20 +176,48 @@ $result = $conn->query("SELECT * FROM fun_facts ORDER BY id DESC");
         </form>
 
         <h3>Existing Fun Facts</h3>
-        <table>
+        <table id="factsTable">
             <tr>
                 <th>Title</th>
                 <th>Fact</th>
                 <th>Action</th>
             </tr>
             <?php while($row = $result->fetch_assoc()): ?>
-            <tr>
+            <tr data-id="<?= $row['id'] ?>">
                 <td><?= htmlspecialchars($row['title']) ?></td>
                 <td><?= htmlspecialchars($row['content']) ?></td>
-                <td><a class="delete-btn" href="?delete=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this?')">Delete</a></td>
+                <td><button class="delete-btn" data-id="<?= $row['id'] ?>">Delete</button></td>
             </tr>
             <?php endwhile; ?>
         </table>
     </div>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!confirm('Are you sure you want to delete this?')) return;
+
+                const id = this.dataset.id;
+                const row = this.closest('tr');
+
+                fetch("", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `delete_id=${id}`
+                })
+                .then(res => res.text())
+                .then(response => {
+                    if (response.trim() === "success") {
+                        row.remove();
+                    } else {
+                        alert("Failed to delete. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -50,17 +50,25 @@ $facts = $conn->query("SELECT * FROM disney_facts ORDER BY id DESC");
             padding: 0;
         }
         li {
-            background: #b3d9ff;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-        img {
-            width: 50px;
-            vertical-align: middle;
-            margin-right: 10px;
-        }
+    background: #b3d9ff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+li img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
     </style>
 </head>
 <body>
@@ -73,7 +81,7 @@ $facts = $conn->query("SELECT * FROM disney_facts ORDER BY id DESC");
             <ul id="latest-updates">
 <?php while($row = $news->fetch_assoc()): ?>
     <li>
-        <img src="admin/news/uploads/<?= htmlspecialchars(basename($row['image_url'])) ?>" alt="news Image" style="max-width:100px;">
+        <img src="../admin/news/uploads/<?= htmlspecialchars(basename($row['image_url'])) ?>" alt="news Image" style="max-width:100px;">
         <?= htmlspecialchars($row['news_text']) ?>
     </li>
 <?php endwhile; ?>
