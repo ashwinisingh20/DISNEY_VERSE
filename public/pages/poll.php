@@ -162,7 +162,7 @@
 </head>
 <body>
 <div class="back">
-            <button onclick="location.href='index.php'">back</button>
+            <button onclick="location.href='..  /index.php'">back</button>
 </div>
     <header>DisneyVerse - Quizzes, Facts, and Polls</header>
     

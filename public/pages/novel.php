@@ -277,13 +277,13 @@ $novels = [
 </head>
 <body>
 <div class="navbar">
-    <a href="pages/about.php">About</a>
-    <a href="pages/summary-page.php">Summaries</a>
-    <a href="pages/poll.php">Games</a>
-    <a href="pages/news.php">News</a>
-    <a href="pages/novel.php">Novels</a>
-    <a href="pages/contactus.php">Contact</a>
-    <a href="pages/my-account.php">My Account</a>
+    <a href="../pages/about.php">About</a>
+    <a href="../pages/summary-page.php">Summaries</a>
+    <a href="../pages/poll.php">Games</a>
+    <a href="../pages/news.php">News</a>
+    <a href="../pages/novel.php">Novels</a>
+    <a href="../pages/contactus.php">Contact</a>
+    <a href="../pages/my-account.php">My Account</a>
 </div>
   <header>📚 DisneyVerse Novels</header>
 
