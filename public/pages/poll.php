@@ -181,23 +181,22 @@
             </div>
         </section>
 
-        <section id="facts" class="content-section">
-            <h2>Disney Fun Facts</h2>
-            <div class="fact-list">
-                <div class="fact-item">
-                    <h3>Did you know?</h3>
-                    <p>The voice of Mickey Mouse was originally provided by Walt Disney himself!</p>
-                </div>
-                <div class="fact-item">
-                    <h3>Fun Fact!</h3>
-                    <p>Walt Disney holds the record for most Academy Awards won by a single person!</p>
-                </div>
-                <div class="fact-item">
-                    <h3>Interesting!</h3>
-                    <p>The castle in Disneyland was inspired by European castles.</p>
-                </div>
+        <?php
+$conn = new mysqli("localhost", "root", "", "disney");
+$result = $conn->query("SELECT * FROM fun_facts ORDER BY id DESC LIMIT 6");
+?>
+
+<section id="facts" class="content-section">
+    <h2>Disney Fun Facts</h2>
+    <div class="fact-list">
+        <?php while($row = $result->fetch_assoc()): ?>
+            <div class="fact-item">
+                <h3><?php echo htmlspecialchars($row['title']); ?></h3>
+                <p><?php echo htmlspecialchars($row['content']); ?></p>
             </div>
-        </section>
+        <?php endwhile; ?>
+    </div>
+</section>
 
         <section id="polls" class="content-section">
             <h2>Disney Polls</h2>
