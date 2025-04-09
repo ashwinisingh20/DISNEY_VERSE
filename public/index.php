@@ -183,7 +183,7 @@
 <body>
 
 <div class="navbar">
-    <a href="pages/about.php">About</a>
+    <a href="pages/about.php">Summary</a>
     <a href="pages/summary-page.php">Summaries</a>
     <a href="pages/poll.php">Games</a>
     <a href="pages/news.php">News</a>
